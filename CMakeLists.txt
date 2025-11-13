@@ -72,7 +72,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(BUILD_SHARED_LIBS "Whether to build shared libraries" OFF)
 option(SHERPA_NCNN_ENABLE_PYTHON "Whether to build Python" OFF)
-option(SHERPA_NCNN_ENABLE_PORTAUDIO "Whether to build with portaudio" OFF)
+option(SHERPA_NCNN_ENABLE_PORTAUDIO "Whether to build with portaudio" ON)
 option(SHERPA_NCNN_ENABLE_JNI "Whether to build JNI internface" OFF)
 option(SHERPA_NCNN_ENABLE_BINARY "Whether to build the binary sherpa-ncnn" ON)
 option(SHERPA_NCNN_ENABLE_TEST "Whether to build tests" OFF)
@@ -236,7 +236,7 @@ if(NOT BUILD_SHARED_LIBS)
   endif()
 
   if(UNIX AND NOT APPLE)
-    set(SHERPA_NCNN_PKG_CONFIG_EXTRA_LIBS "-lm -lstdc++ -lgomp -lpthread")
+    set(SHERPA_NCNN_PKG_CONFIG_EXTRA_LIBS "-lm -lstdc++ -fopenmp")
   endif()
 endif()
 

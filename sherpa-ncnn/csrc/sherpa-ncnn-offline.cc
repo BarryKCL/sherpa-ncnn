@@ -11,40 +11,8 @@
 #include "sherpa-ncnn/csrc/offline-recognizer.h"
 #include "sherpa-ncnn/csrc/parse-options.h"
 #include "sherpa-ncnn/csrc/wave-reader.h"
-#ifdef __QNXNTO__
-#include <sys/neutrino.h>
-#include <sys/syspage.h>
-#include <stdio.h>
-#include <stdint.h>
-
-static void enable_all_cpus_for_process() {
-    // 实际 CPU 数
-    unsigned ncpu = _syspage_ptr->num_cpu;
-
-    // 生成 runmask：CPU0~CPU(ncpu-1) 全开
-    unsigned mask;
-    if (ncpu >= sizeof(unsigned) * 8) {
-        mask = 0xFFFFFFFFu;
-    } else {
-        mask = (1u << ncpu) - 1u;
-    }
-
-    // 设置当前线程的 runmask
-    if (ThreadCtl(_NTO_TCTL_RUNMASK, (void*)(uintptr_t)mask) == -1) {
-        perror("[QNX] ThreadCtl(_NTO_TCTL_RUNMASK) failed");
-    } else {
-        fprintf(stderr,
-                "[QNX] enable_all_cpus_for_process: ncpu=%u, runmask=0x%08x\n",
-                ncpu, mask);
-    }
-}
-#endif
-
 
 int main(int32_t argc, char *argv[]) {
-  #ifdef __QNXNTO__
-      enable_all_cpus_for_process();
-  #endif
   const char *kUsageMessage = R"usage(
 Speech recognition using non-streaming models with sherpa-ncnn.
 

@@ -120,8 +120,8 @@ call C:\BareBoneSDK\zw_barebone_sdk\sdkresource\qnxsdp-env.bat
 
 cmake -G Ninja ^
   -DCMAKE_BUILD_TYPE=Release ^
-  -DCMAKE_TOOLCHAIN_FILE="C:\Users\207pad\Desktop\ncnn\toolchains\aarch64-qnx7.toolchain.cmake" ^
-  -DCMAKE_PREFIX_PATH="C:\Users\207pad\Desktop\ncnn\build-qnx-aarch64\install" ^
+  -DCMAKE_TOOLCHAIN_FILE="C:\Users\207pad\Desktop\sherpa-ncnn\toolchains\aarch64-qnx7.toolchain.cmake" ^
+  -DCMAKE_PREFIX_PATH="C:\Users\207pad\Desktop\sherpa-ncnn\build-qnx-aarch64\install" ^
   -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY ^
   -DCMAKE_MAKE_PROGRAM="C:/Users/207pad/AppData/Local/Microsoft/WinGet/Links/ninja.exe" ^
   -DBUILD_SHARED_LIBS=OFF ^
@@ -133,14 +133,6 @@ cmake -G Ninja ^
   -DSHERPA_NCNN_ENABLE_C_API=ON ^
   -DSHERPA_NCNN_ENABLE_BINARY=ON ^
   -DNCNN_OPENMP=ON ^
-  -DNCNN_ARM82=ON ^
-  -DNCNN_ARM82DOT=ON ^
-  -DNCNN_RUNTIME_CPU=ON ^
-  -DNCNN_ARM82FP16FML=OFF ^
-  -DNCNN_BENCHMARK=OFF ^
-  -DNCNN_VULKAN=OFF ^
-  -DCMAKE_C_FLAGS="-D_QNX_SOURCE -D_POSIX_C_SOURCE=200809L" ^
-  -DCMAKE_CXX_FLAGS="-D_QNX_SOURCE -D_POSIX_C_SOURCE=200809L -mcpu=cortex-a55 -mtune=cortex-a55 -march=armv8.2-a+fp16+dotprod" ^
   -DCMAKE_INSTALL_PREFIX="C:\Users\207pad\Desktop\sherpa-ncnn\build-qnx-aarch64\install-qnx-aarch64" ^
   ..
 
