@@ -8,6 +8,7 @@
 #define SHERPA_NCNN_CSRC_PARSE_OPTIONS_H_
 
 #include <cstdint>
+#include <cstdio>
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -25,7 +26,7 @@ class ParseOptions {
         argv_(nullptr),
         prefix_(""),
         other_parser_(nullptr) {
-#if !defined(_MSC_VER) && !defined(__CYGWIN__)
+#if !defined(_MSC_VER) && !defined(__CYGWIN__) && !defined(__QNXNTO__)
     // This is just a convenient place to set the stderr to line
     // buffering mode, since it's called at program start.
     // This helps ensure different programs' output is not mixed up.

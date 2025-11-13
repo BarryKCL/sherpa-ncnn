@@ -5,6 +5,23 @@ endif()
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 project(sherpa-ncnn)
 
+# 检查是否为 QNX 平台（或根据需要调整此逻辑）
+# 我们必须为 OpenMP 分离编译和链接标志
+# 因为这个 QNX "BareBoneSDK" 缺少 libgomp.spec 文件。
+if(CMAKE_SYSTEM_NAME STREQUAL "QNX")
+  message(STATUS "Applying QNX OpenMP link-fix (lgomp)")
+
+  # 1. 仅在编译 C 和 C++ 文件时添加 -fopenmp
+  add_compile_options(
+      $<$<COMPILE_LANGUAGE:C>:-fopenmp>
+      $<$<COMPILE_LANGUAGE:CXX>:-fopenmp>
+  )
+
+  # 2. 仅在链接时手动添加所需的库
+  # 这将把 -lgomp 和 -lpthread 添加到所有链接命令中
+  add_link_options("-lgomp")
+endif()
+
 set(SHERPA_NCNN_VERSION "2.1.15")
 
 # Disable warning about
@@ -55,7 +72,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(BUILD_SHARED_LIBS "Whether to build shared libraries" OFF)
 option(SHERPA_NCNN_ENABLE_PYTHON "Whether to build Python" OFF)
-option(SHERPA_NCNN_ENABLE_PORTAUDIO "Whether to build with portaudio" ON)
+option(SHERPA_NCNN_ENABLE_PORTAUDIO "Whether to build with portaudio" OFF)
 option(SHERPA_NCNN_ENABLE_JNI "Whether to build JNI internface" OFF)
 option(SHERPA_NCNN_ENABLE_BINARY "Whether to build the binary sherpa-ncnn" ON)
 option(SHERPA_NCNN_ENABLE_TEST "Whether to build tests" OFF)
@@ -219,7 +236,7 @@ if(NOT BUILD_SHARED_LIBS)
   endif()
 
   if(UNIX AND NOT APPLE)
-    set(SHERPA_NCNN_PKG_CONFIG_EXTRA_LIBS "-lm -lstdc++ -fopenmp")
+    set(SHERPA_NCNN_PKG_CONFIG_EXTRA_LIBS "-lm -lstdc++ -lgomp -lpthread")
   endif()
 endif()
 
